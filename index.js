@@ -1,15 +1,16 @@
-var FlumeReduce = require('flumeview-reduce')
+var FlumeReduceKV = require('flumeview-reduce/key-value')
 var ref = require('ssb-ref')
 
-exports.name = 'about'
+var name = 'about'
+exports.name = name
 exports.version = require('./package.json').version
 exports.manifest = {
   stream: 'source',
   get: 'async'
 }
 
-exports.init = function (ssb, config) {
-  return ssb._flumeUse('about', FlumeReduce(1, reduce, map))
+exports.init = function (ssb, config, opts = {}) {
+  return ssb._flumeUse(name, FlumeReduceKV(opts)(1, reduce, map))
 }
 
 function reduce (result, item) {
